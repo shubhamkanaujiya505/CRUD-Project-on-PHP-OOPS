@@ -19,13 +19,13 @@ class database{
         // declar the connection variable
         $this->host='localhost';
         $this->dbusername='$root';
-        $this->dbpassword=' ';
+        $this->dbpassword='Bhagat@123';
         $this->dbname='crud';
 
         // create a object for connection
         // using connect method to using oops concept 
         $con = new mysqli($this->host,$this->dbusername,$this->dbpassword,$this->dbname);
-
+        // print_r( $con);
         return $con; // because return all con value
 
     }
@@ -39,7 +39,7 @@ class query extends database{
     public function getData(){ // this function retrive all data from the database
 
         // write a query to the database
-        $sql = " select * from users";
+        $sql = " select * from user";
 
         // for run sql query 
         $result = $this->connect()->query($sql);
