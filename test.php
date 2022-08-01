@@ -1,4 +1,5 @@
 <?php
+
 // include database page 
 include ('DataBase.php');
 
@@ -6,5 +7,9 @@ include ('DataBase.php');
 $obj = new query();
 
 // calling getData()
-$obj->getData();
+$result = $obj->getData();
+    echo "<pre>";
+        print_r(($result));
+        echo "</pre>";
+
 ?>

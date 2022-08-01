@@ -12,7 +12,12 @@ class database{
     private $dbusername;
     private $dbpassword;
     private $dbname;
-
+    public $con = '';
+    public $query = '';
+    public function __construct()
+    {
+        $this->connect();
+    }
     //this function is protected because access by only inherited class 
     protected function connect() {
 
@@ -24,13 +29,29 @@ class database{
 
         // create a object for connection
         // using connect method to using oops concept 
-        $con = new mysqli($this->host,$this->dbusername,$this->dbpassword,$this->dbname);
+        $this->con = new mysqli($this->host,$this->dbusername,$this->dbpassword,$this->dbname);
         // print_r( $con);
-        return $con; // because return all con value
+        return $this->con; // because return all con value
         // print_r($con);
         // echo ("hello");
     }
 
+    public function executeQuery($no_of_col,$table,$condition,$limit,$order,$orderSeq)
+    {
+          $this->query = "SELECT ".$no_of_col." FROM ".$table." ".$condition." "." ".$order." ".$orderSeq." ".$limit;
+          
+          return $this->con->query($this->query);
+    }
+
+    public function fetchObject($res)
+    {
+          $arr = [];
+          while($ret = $res->fetch_object())
+          {
+                array_push($arr,$ret);
+          }  
+          return $arr;
+    }
 }
 
 // create a new class inherit database class 
@@ -40,29 +61,14 @@ class query extends database{
     public function getData(){ // this function retrive all data from the database
 
         // write a query to the database
-        $sql = " select * from user";
-
+        
         // for run sql query 
-        $result = $this->connect()->query($sql);
+        $result = $this->executeQuery("*","user","","limit 1","order by id","");
+
+        $obj = $this->fetchObject($result);
         
         // for checking the value
-        // print_r($result);
-        if($result->num_rows>0){
-
-            $arr = array();
-            while($row=$result->fetch_assoc()){
-                $arr[]=$row;
-            
-                // echo "<pre>";
-                // print_r(($row));
-                // echo "</pre>";
-            }
-            return $arr;
-        }
-        else{
-            return 0;
-        }
-
+        print_r($obj);
 
     }
 }
